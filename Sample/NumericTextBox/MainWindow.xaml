@@ -1,0 +1,45 @@
+﻿<Window x:Class="NumericTextBox.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NumericTextBox"
+        xmlns:ikr="clr-namespace:Ikorin"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="300" Width="500">
+    <Window.DataContext>
+        <local:SourceObject/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="double値 (11.4 ~ -5.14) : " Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"/>
+        <TextBlock Text="int値 (33 ~ -4) : " Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"/>
+        <ikr:DoubleTextBox Text="{Binding DoubleValue, Mode=TwoWay,UpdateSourceTrigger=Explicit}" MaxValue="11.4" MinValue="-5.14" Grid.Column="3" Grid.Row="1"/>
+        <ikr:IntTextBox Text="{Binding IntValue, Mode=TwoWay, UpdateSourceTrigger=Explicit}" MaxValue="33" MinValue="-4" Grid.Column="3" Grid.Row="3"/>
+        <TextBlock Grid.Column="5" Grid.Row="1" VerticalAlignment="Center">
+            <Run Text="確定値:"/>
+            <Run Text="{Binding DoubleValue, Mode=OneWay}"/>
+        </TextBlock>
+        <TextBlock Grid.Column="5" Grid.Row="3" VerticalAlignment="Center">
+            <Run Text="確定値:"/>
+            <Run Text="{Binding IntValue, Mode=OneWay}"/>
+        </TextBlock>
+    </Grid>
+</Window>
