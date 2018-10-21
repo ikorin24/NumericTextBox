@@ -27,33 +27,33 @@ c# (Binding Source側)
 
 ```csharp
 public class SourceObject : INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public double DoubleValue
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public double DoubleValue
+        get { return _doubleValue; }
+        set
         {
-            get { return _doubleValue; }
-            set
-            {
-                if(_doubleValue == value) { return; }
-                _doubleValue = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DoubleValue)));
-            }
+            if(_doubleValue == value) { return; }
+            _doubleValue = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DoubleValue)));
         }
-        private double _doubleValue;
-
-        public double IntValue
-        {
-            get { return _intValue; }
-            set
-            {
-                if(_intValue == value) { return; }
-                _intValue = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IntValue)));
-            }
-        }
-        private double _intValue;
     }
+    private double _doubleValue;
+
+    public double IntValue
+    {
+        get { return _intValue; }
+        set
+        {
+            if(_intValue == value) { return; }
+            _intValue = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IntValue)));
+        }
+    }
+    private double _intValue;
+}
 ```
 
 ## その他
