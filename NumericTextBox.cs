@@ -84,7 +84,7 @@ namespace Ikorin
                 }
                 else {
                     SelectAll();
-                    be.UpdateSource();  // 内部で型変換例外が発生してバインドソースの更新失敗、テキストボックスの枠がError色に変化
+                    be.ValidateWithoutUpdate();     // テキストボックスの枠がError色に変化
                 }
             }
             // Escape押下時はバインドソースから値をレストア
