@@ -58,8 +58,8 @@ public class SourceObject : INotifyPropertyChanged
 
 ## その他
 
-Bindingして使用することを前提にしています。
-Bindingしない場合、ただのTextBoxです。
+MVVMにもとづいて、ViewModelとBindingして使用することを前提にしています。
+TextプロパティにBindingを用いない場合、NumericTextBoxとしての機能は一切動かず、ただのTextBoxです。
 
 ## 書いた人
 
