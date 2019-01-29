@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Globalization;
 
 namespace Ikorin
 {
@@ -16,6 +17,9 @@ namespace Ikorin
     /// <typeparam name="T">数値の型</typeparam>
     public abstract class NumericTextBoxBase<T> : TextBox where T : struct, IComparable<T>
     {
+        private readonly static CustomValidationRule _customRule = new CustomValidationRule();
+        private bool _addedRule;
+
         #region MaxValue
         /// <summary>入力可能な数値の最大値</summary>
         public T MaxValue
@@ -69,6 +73,10 @@ namespace Ikorin
             // Enter押下時に入力文字列が数値ならMax値, Min値で入力値を修正して確定(バインドソースを更新)
             var be = GetBindingExpression(TextProperty);
             if(be == null) { return; }  // バインドされていなければ処理をしない
+            if(!_addedRule) {
+                be.ParentBinding.ValidationRules.Add(_customRule);
+                _addedRule = true;
+            }
             if(e.Key == Key.Enter) {
                 if(ValueTryParse(Text, out var value)) {
                     if(value.CompareTo(MaxValue) > 0) {
@@ -121,6 +129,20 @@ namespace Ikorin
             base.OnLostFocus(e);
         }
         #endregion Method
+
+        #region class CustomValidationRule
+        class CustomValidationRule : ValidationRule
+        {
+            public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+            {
+                // 4e5, -3E9 等の有効数字形を許可しない
+                if(value.ToString().ToLower().Contains("e")) {
+                    return new ValidationResult(false, null);
+                }
+                return ValidationResult.ValidResult;
+            }
+        }
+        #endregion
     }
     #endregion NumericTextBoxBase<T>
 
@@ -143,6 +165,10 @@ namespace Ikorin
         /// <returns>変換可能か</returns>
         protected override bool ValueTryParse(string text, out double value)
         {
+            if(text.ToLower().Contains("e")) {  // 有効数字形を不可とする
+                value = default(double);
+                return false;
+            }
             return double.TryParse(text, out value);
         }
     }
